@@ -191,12 +191,12 @@ contract Dynamo is ERC20 {
     string private _symbol;
     uint8 private _decimals;
     
-    uint8 private stable_1;
-    uint8 private stable_2;
-    uint8 private stable_3;
-    uint8 private stable_4;
-    uint8 private stable_5;
-    uint8 private price_stable;
+    uint256 private stable_1;
+    uint256 private stable_2;
+    uint256 private stable_3;
+    uint256 private stable_4;
+    uint256 private stable_5;
+    uint256 private price_stable;
     
     address public _owner;
     address private _previousOwner;
@@ -295,10 +295,10 @@ contract Dynamo is ERC20 {
         _stable5 = price;
     }
     
-    unction getPrice(uint8) public  {    
-        _price = _stable1.add(_stable2).add(_stable3).add(_stable4);
-        _price = _price.div(5);
-        return _price;
+    function getPrice(uint256) public  {    
+        _price_stable = _stable1.add(_stable2).add(_stable3).add(_stable4);
+        _price_stable = _price.div(5);
+        return _price_stable;
     }
 
 }
