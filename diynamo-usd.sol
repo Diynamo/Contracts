@@ -296,11 +296,8 @@ contract Dynamo is ERC20 {
     }
     
     unction getPrice(uint8) public  {    
-        _price = add(_stable1, _stable2)
-        _price = add(_price, _stable3)
-        _price = add(_price, _stable4)
-        _price = add(_price, _stable5)
-        _price = div(_price, 5)
+        _price = _stable1.add(_stable2).add(_stable3).add(_stable4);
+        _price = _price.div(5);
         return _price;
     }
 
