@@ -295,7 +295,7 @@ contract Dynamo is ERC20 {
         _stable5 = price;
     }
     
-    function getPrice(uint256) public  {    
+    function getPrice(uint256) public view returns {    
         _price_stable = _stable1.add(_stable2).add(_stable3).add(_stable4);
         _price_stable = _price.div(5);
         return _price_stable;
