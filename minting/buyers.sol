@@ -2,6 +2,7 @@
 pragma solidity ^0.8.10;
 
 contract NFT_ordered {
+    mapping(address => uint) public id;
     mapping(address => uint) public balances;
     mapping(address => bool) public inserted;
     address[] public keys;
@@ -16,8 +17,9 @@ contract NFT_ordered {
         _;
     }
 
-    function set(address _addr, uint _bal) external onlyOwner() {
+    function set(address _addr, uint _bal, uint _id) external onlyOwner() {
         balances[_addr] = _bal;
+        id[_addr] = _id;
 
         if (!inserted[_addr]) {
             inserted[_addr] = true;
@@ -25,12 +27,28 @@ contract NFT_ordered {
         }
     }
 
-    function get(uint _index) external view returns (uint) {
+    function get(uint _index) external view returns (uint, uint) {
         address key = keys[_index];
-        return balances[key];
+        return (balances[key], id[key]);
+
     }
 
     function buyers() external view returns (uint) {
         return keys.length;
     }
+
+    function random() public view returns (uint) {
+        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, keys)));
+    }
+
+    function pickWinner() public view returns (uint) {
+        uint index=random()%keys.length;
+        return index;
+    }
+
+    function randomval() public view returns (uint) {
+        uint randomHash = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, keys)));
+        return randomHash % 1000;
+    }
+
 }
