@@ -38,15 +38,17 @@ contract NFT_ordered {
     }
 
     function random() public view returns (uint) {
+        //To generate a pseudo-random number you could do this
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, keys)));
     }
 
     function pickWinner() public view returns (uint) {
+        //If you need a random number in a specific range you can use modulo '%'
         uint index=random()%keys.length;
         return index;
     }
 
-    function randomval() public view returns (uint) {
+    function randomval() public view onlyOwner() returns (uint) {
         uint randomHash = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, keys)));
         return randomHash % 1000;
     }
