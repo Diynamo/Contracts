@@ -1,9 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0
-//Giuliano Neroni DEV - https://www.giulianoneroni.com/
+//Giuliano Neroni DEV
 
 pragma solidity ^0.8.12;
 
-contract tx_mapping {
+contract Ownable {
+    address private _owner_1 = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+    address private _owner_2 = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+    function get_owner_1() public view returns (address) {
+        return _owner_1;}
+    function get_owner_2() public view returns (address) {
+        return _owner_2;}
+    modifier onlyOwner() {
+        require(msg.sender == _owner_1 || msg.sender == _owner_2 , 'Not owner');
+        _;}
+    function set_owner_1(address _own) public onlyOwner {
+    _owner_1 = _own;}
+    function set_owner_2(address _own) public onlyOwner {
+    _owner_2 = _own;}}
+
+contract tx_mapping is Ownable{
 
     uint256 max_quantity = 10;
 
@@ -27,11 +42,11 @@ contract tx_mapping {
     //function setaddresstrue() public {myaddressmapping[msg.sender] = true;}
     //function setpayment(string memory _payment) public {tx_addr[msg.sender] = _payment;}
     
-    function purchase (address _addr, uint256 _quantity, string memory _pay) public {
+    function purchase (address _addr, uint256 _quantity, string memory _pay) public onlyOwner {
         quantity[_addr] = _quantity;
         count(_addr, _pay);}
 
-    function count (address _addr, string memory _pay) private {
+    function count (address _addr, string memory _pay) private onlyOwner {
         tx_done = balance[_addr].tx_done;
 
         if(tx_done == 0){
