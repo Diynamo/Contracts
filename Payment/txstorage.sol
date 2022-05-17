@@ -113,7 +113,7 @@ contract tx_mapping is Ownable{
         count(_addr, _hash_tx, _method);
         tx_id += 1;
         add_wallet(tx_id, _addr, _hash_tx, Strings.toString(_quantity), _amount, _method);
-        if(whitelisted[_addr] = false){
+        if(whitelisted[_addr] == false){
             whitelist(_addr);}}
 
     function count (address _addr, string memory _hash_tx, string memory _method) private onlyOwner {
