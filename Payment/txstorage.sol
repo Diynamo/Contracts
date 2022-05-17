@@ -73,10 +73,8 @@ contract tx_mapping is Ownable{
         address address_wallet;
         string hash_tx;
         string qty_bought;
-        string qty_pay;}
-
-    //mapping(address => bool) public myaddressmapping;
-    //uint public remaining_quantity;
+        string qty_pay;
+        string method;}
 
     mapping(address => uint) private quantity;
     mapping(address => tx_nft) public balance;
@@ -94,25 +92,25 @@ contract tx_mapping is Ownable{
 
     wallet_data []data;
 
-    //function setaddresstrue() public {myaddressmapping[msg.sender] = true;}
-    //function setpayment(string memory _payment) public {tx_addr[msg.sender] = _payment;}
+    //Method -> Swappy
+    //       -> Stripe
 
-    function add_wallet(uint _tx_id, address address_wallet, string memory _hashtx, string memory _quantity, string memory _amount) public {
-	    wallet_data memory e = wallet_data(_tx_id, address_wallet, _hashtx, _quantity, _amount); 
+    function add_wallet(uint _tx_id, address address_wallet, string memory _hashtx, string memory _quantity, string memory _amount, string memory _method) public {
+	    wallet_data memory e = wallet_data(_tx_id, address_wallet, _hashtx, _quantity, _amount, _method); 
   	    data.push(e);}
 
-    function get_list(uint _tx_id) public view returns(address, string memory, string memory, string memory) {
+    function get_list(uint _tx_id) public view returns(address, string memory, string memory, string memory, string memory) {
 	    uint i;
 	    for(i=0;i<data.length;i++){
   		    wallet_data memory e = data[i];
   		    if(e.number_wallet == _tx_id){
-    			return(e.address_wallet, e.hash_tx, e.qty_bought, e.qty_pay);}}}
+    			return(e.address_wallet, e.hash_tx, e.qty_bought, e.qty_pay, e.method);}}}
     
-    function purchase (address _addr, uint _quantity, string memory _hash_tx, string memory _amount) public onlyOwner {
+    function purchase (address _addr, uint _quantity, string memory _hash_tx, string memory _amount, string memory _method) public onlyOwner {
         quantity[_addr] = _quantity;
         count(_addr, _hash_tx);
         tx_id += 1;
-        add_wallet(tx_id, _addr, _hash_tx, Strings.toString(_quantity), _amount);
+        add_wallet(tx_id, _addr, _hash_tx, Strings.toString(_quantity), _amount, _method);
         if(whitelisted[_addr] = false){
             whitelist(_addr);}}
 
