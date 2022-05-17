@@ -22,7 +22,6 @@ contract Ownable {
         _owner_2 = _own;}}
 
 contract tx_mapping is Ownable{
-
     uint256 max_quantity = 10;
 
     struct tx_nft {
