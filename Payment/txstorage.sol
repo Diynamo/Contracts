@@ -66,6 +66,7 @@ contract tx_mapping is Ownable{
         uint256 qty_left;
         string hash_tx;
         string id_tx;
+        string method;
         uint256 tx_done;}
 
     struct wallet_data {
@@ -88,6 +89,7 @@ contract tx_mapping is Ownable{
     uint tx_id;
     string tx_add;
     string tx_id_add;
+    string tx_method_add;
     uint public total_tx;
 
     wallet_data []data;
@@ -108,13 +110,13 @@ contract tx_mapping is Ownable{
     
     function purchase (address _addr, uint _quantity, string memory _hash_tx, string memory _amount, string memory _method) public onlyOwner {
         quantity[_addr] = _quantity;
-        count(_addr, _hash_tx);
+        count(_addr, _hash_tx, _method);
         tx_id += 1;
         add_wallet(tx_id, _addr, _hash_tx, Strings.toString(_quantity), _amount, _method);
         if(whitelisted[_addr] = false){
             whitelist(_addr);}}
 
-    function count (address _addr, string memory _hash_tx) private onlyOwner {
+    function count (address _addr, string memory _hash_tx, string memory _method) private onlyOwner {
         tx_done = balance[_addr].tx_done;
         total_tx += 1;
 
@@ -123,13 +125,16 @@ contract tx_mapping is Ownable{
             balance[_addr].qty_left = max_quantity;
             balance[_addr].qty_left -= quantity[_addr];
             balance[_addr].qty_bought = quantity[_addr];
-            balance[_addr].id_tx = Strings.toString(total_tx);}
+            balance[_addr].id_tx = Strings.toString(total_tx);
+            balance[_addr].method = _method;}
 
         if(tx_done > 0){
             tx_add = balance[_addr].hash_tx;
             tx_id_add = balance[_addr].id_tx;
+            tx_method_add = balance[_addr].method;
             balance[_addr].hash_tx = string(abi.encodePacked(tx_add, ";", _hash_tx));
             balance[_addr].id_tx = string(abi.encodePacked(tx_id_add, ";", Strings.toString(total_tx)));
+            balance[_addr].method = string(abi.encodePacked(tx_method_add, ";", _method));
             balance[_addr].qty_left -= quantity[_addr];
             balance[_addr].qty_bought += quantity[_addr];}
 
