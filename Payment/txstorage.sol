@@ -21,7 +21,7 @@ contract Ownable {
     function set_owner_2(address _own) public onlyOwner {
         _owner_2 = _own;}}
 
-contract tx_mapping is Ownable{
+contract tx_mapping is Ownable {
     uint256 max_quantity = 10;
 
     struct tx_nft {
